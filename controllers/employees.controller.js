@@ -1,5 +1,5 @@
 import { db } from "../utils/db.connect.js";
-
+import {sendEmail} from "../utils/email.js"
 export const getEmployees = (req, res) => {
   // Assuming page and pageSize are parameters from the front-end
   const page = req.query.page || 1;
@@ -68,5 +68,20 @@ export const addEmployee = (req, res) => {
     });
   }
 };
-
+export const customerSendEmail =  (req, res) => {
+  const data = req.body;
+  try {
+    for (let i = 0; i < data.length; i++) {
+       sendEmail(data[i]);
+    }
+    res.status(200).json({
+      message: "All emails sent successful",
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({
+      message: "All emails sent failed",
+    });
+  }
+};
 

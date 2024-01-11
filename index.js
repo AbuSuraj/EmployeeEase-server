@@ -1,9 +1,8 @@
 import express from "express";
 import employeeRoutes from "./routes/employees.route.js";
-import emailRoutes from "./routes/email.route.js";
+// import emailRoutes from "./routes/email.route.js";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-import multer from "multer";
 import { config } from 'dotenv';
 config();
 const app = express();
@@ -23,11 +22,8 @@ app.use((req, res, next) => {
   // );
 
 app.use(cookieParser());
-
-  
-
-app.use("/api/email", emailRoutes);
 app.use("/api/employees", employeeRoutes);
+
 app.listen(5000, () => {
     console.log("API working!");
   });
