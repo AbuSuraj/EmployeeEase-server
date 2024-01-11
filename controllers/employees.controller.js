@@ -1,14 +1,23 @@
-import { db } from "../utils/db.connect.js"; 
+import { db } from "../utils/db.connect.js";
 
 export const getEmployees = (req, res) => {
-   
-  const q = "SELECT * FROM employees";
+
+  const q = "SELECT * FROM employees  ";
 
   db.query(q, (err, data) => {
-    if (err) return res.status(500).json(err);
-    const { password, ...info } = data[0];
-    return res.json(info);
+    if (err) {
+      console.error(err);
+      return res.status(500).json(err);
+    }
+
+    if (data.length > 0) {
+      console.log(data)
+      return res.json(data);
+    } else {
+      return res.status(404).json("Employees not found");
+    }
   });
+
 };
 
 export const addEmployee = (req, res) => {
@@ -22,7 +31,7 @@ export const addEmployee = (req, res) => {
         console.error(err);
         return res.status(500).json(err);
       }
-  
+
       if (data.affectedRows > 0) {
         return res.json("Employee added successfully!");
       } else {
@@ -30,6 +39,6 @@ export const addEmployee = (req, res) => {
       }
     }
   );
-  
-  };
- 
+
+};
+
