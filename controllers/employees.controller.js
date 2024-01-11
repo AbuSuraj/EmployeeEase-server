@@ -1,8 +1,14 @@
 import { db } from "../utils/db.connect.js";
 
 export const getEmployees = (req, res) => {
+  // Assuming page and pageSize are parameters from the front-end
+  const page = req.query.page || 1;
+  const pageSize = req.query.pageSize || 5;
+  
+  // Calculate the offset based on the current page and pageSize
+  const offset = (page - 1) * pageSize;
 
-  const q = "SELECT * FROM employees  ";
+  const q = `SELECT * FROM employees LIMIT ${pageSize} OFFSET ${offset}`;
 
   db.query(q, (err, data) => {
     if (err) {
@@ -11,14 +17,14 @@ export const getEmployees = (req, res) => {
     }
 
     if (data.length > 0) {
-      console.log(data)
+      // console.log(data);
       return res.json(data);
     } else {
       return res.status(404).json("Employees not found");
     }
   });
-
 };
+
 
 export const addEmployee = (req, res) => {
   const employees = req.body;
