@@ -1,5 +1,5 @@
-Host: sql12.freesqldatabase.com
-Database name: sql12665260
-Database user: sql12665260
-Database password: Zn8cYaNBNp
-Port number: 3306
+Host: gateway01.ap-southeast-1.prod.aws.tidbcloud.com
+Database name: EmployeeEase
+Database user: 43a5mdUeKWoCZAw.root
+Database password: B2bhgFdXyPrm1qiW
+Port number: 4000

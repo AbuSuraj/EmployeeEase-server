@@ -1,5 +1,5 @@
 import express from "express";
-import userRoutes from "./routes/users.route.js";
+import employeeRoutes from "./routes/employees.route.js";
 import emailRoutes from "./routes/email.route.js";
 import cors from "cors";
 import cookieParser from "cookie-parser";
@@ -27,7 +27,7 @@ app.use(cookieParser());
   
 
 app.use("/api/email", emailRoutes);
-app.use("/api/users", userRoutes);
+app.use("/api/employees", employeeRoutes);
 app.listen(5000, () => {
     console.log("API working!");
   });
