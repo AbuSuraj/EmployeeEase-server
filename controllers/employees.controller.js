@@ -21,12 +21,34 @@ export const getEmployees = (req, res) => {
 };
 
 export const addEmployee = (req, res) => {
-  const q = "INSERT INTO employees (`firstName`, `lastName`, `email`) VALUES (?, ?, ?)";
+  const employees = req.body;
 
-  db.query(
-    q,
-    [req.body.firstName, req.body.lastName, req.body.email],
-    (err, data) => {
+  // If employees is an array, insert multiple employees
+  if (Array.isArray(employees)) {
+    const q = "INSERT INTO employees (`firstName`, `lastName`, `email`) VALUES ?";
+
+    const values = employees.map(employee => [employee.firstName, employee.lastName, employee.email]);
+
+    db.query(q, [values], (err, data) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).json(err);
+      }
+
+      if (data.affectedRows > 0) {
+        return res.json("Employees added successfully!");
+      } else {
+        return res.status(403).json("Failed to add employees.");
+      }
+    });
+  } else {
+    // If employees is not an array, insert a single employee
+    const q = "INSERT INTO employees (`firstName`, `lastName`, `email`) VALUES (?, ?, ?)";
+
+    const employee = employees;
+    const values = [employee.firstName, employee.lastName, employee.email];
+
+    db.query(q, values, (err, data) => {
       if (err) {
         console.error(err);
         return res.status(500).json(err);
@@ -37,8 +59,8 @@ export const addEmployee = (req, res) => {
       } else {
         return res.status(403).json("Failed to add employee.");
       }
-    }
-  );
-
+    });
+  }
 };
+
 
