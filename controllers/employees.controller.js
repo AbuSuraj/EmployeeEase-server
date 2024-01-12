@@ -4,26 +4,58 @@ export const getEmployees = (req, res) => {
   // Assuming page and pageSize are parameters from the front-end
   const page = req.query.page || 1;
   const pageSize = req.query.pageSize || 5;
-  
+
   // Calculate the offset based on the current page and pageSize
   const offset = (page - 1) * pageSize;
 
-  const q = `SELECT * FROM employees LIMIT ${pageSize} OFFSET ${offset}`;
+  // Query to get paginated data
+  const getDataQuery = `SELECT * FROM employees LIMIT ${pageSize} OFFSET ${offset}`;
 
-  db.query(q, (err, data) => {
-    if (err) {
+  // Query to get total number of employees
+  const getTotalCountQuery = 'SELECT COUNT(*) as totalCount FROM employees';
+
+  // Perform both queries in parallel using Promise.all
+  Promise.all([
+    new Promise((resolve, reject) => {
+      // Fetch paginated data
+      db.query(getDataQuery, (err, data) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(data);
+        }
+      });
+    }),
+    new Promise((resolve, reject) => {
+      // Fetch total count of employees
+      db.query(getTotalCountQuery, (err, result) => {
+        if (err) {
+          reject(err);
+        } else {
+          const totalCount = result[0].totalCount || 0;
+          resolve(totalCount);
+        }
+      });
+    }),
+  ])
+    .then(([data, totalCount]) => {
+      const totalPages = Math.ceil(totalCount / pageSize);
+      const currentPage = Math.min(page, totalPages);
+
+      // Send the response with the requested information
+      res.json({
+        data,
+        totalEmployees: totalCount,
+        currentPage,
+        totalPage: totalPages,
+      });
+    })
+    .catch((err) => {
       console.error(err);
-      return res.status(500).json(err);
-    }
-
-    if (data.length > 0) {
-      // console.log(data);
-      return res.json(data);
-    } else {
-      return res.status(404).json("Employees not found");
-    }
-  });
+      res.status(500).json({ error: "Internal Server Error" });
+    });
 };
+
 
 
 export const addEmployee = (req, res) => {
