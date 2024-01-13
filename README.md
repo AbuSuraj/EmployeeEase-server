@@ -21,13 +21,14 @@ Welcome to the server-side code of the Employee Ease project!
 # Employee Ease API Documentation
 
 ## Base API: `https://employee-ease-server.vercel.app`
+## Base API Local: `http://localhost:5000`
 
 ### 1. GET Employees
 
-- **Endpoint:** `/`
+- **Endpoint:** `/api/employees/`
 - **HTTP Method:** `GET`
 - **Description:** Retrieves a list of all employees in the company.
-- **Example:** `https://employee-ease-server.vercel.app/`
+- **Example:** `http://localhost:5000/api/employees/`
 
 ### 2. Add Employee
 
@@ -43,9 +44,10 @@ Welcome to the server-side code of the Employee Ease project!
   }
 ### 2. Send Email
 
-- **Endpoint:** `/send-email`
+- **Endpoint:** `/api/employees/send-email`
 - **HTTP Method:** `POST`
 - **Description:** Sends an email to one or more employees.
+- **Example:** `http://localhost:5000/send-email`
 - **Input Format:**
   ```json
   {  
@@ -53,4 +55,5 @@ Welcome to the server-side code of the Employee Ease project!
   "subject": "Meeting Announcement",
   "body": "Dear team, we have an upcoming meeting..."
   }
+- Brevo email sevice is used here.
 
