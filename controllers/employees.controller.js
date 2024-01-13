@@ -2,8 +2,8 @@ import { db } from "../utils/db.connect.js";
 import {sendEmail} from "../utils/email.js"
 export const getEmployees = (req, res) => {
   // Assuming page and pageSize are parameters from the front-end
-  const page = req.query.page || 1;
-  const pageSize = req.query.pageSize || 5;
+  const page = parseInt(req.query.page) || 1;
+  const pageSize = parseInt(req.query.pageSize) || 5;
 
   // Calculate the offset based on the current page and pageSize
   const offset = (page - 1) * pageSize;
