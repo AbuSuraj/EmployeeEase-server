@@ -101,11 +101,10 @@ export const addEmployee = (req, res) => {
   }
 };
 export const customerSendEmail =  (req, res) => {
-  const {email, subject, body} = req.body;
-   
+  const data = req.body;
   try {
-    for (let i = 0; i < email.length; i++) {
-       sendEmail(email[i], subject, body);
+    for (let i = 0; i < data.length; i++) {
+       sendEmail(data[i]);
     }
     res.status(200).json({
       message: "All emails sent successful",
