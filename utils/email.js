@@ -4,11 +4,11 @@ const transporter = createTransport({
     port: 587,
     auth: {
         user: "abusurajbd@gmail.com",
-        pass: process.env.BREVO_KEY,
+        pass: "xsmtpsib-8b42d510bd6afffcbb78d6faa1af60d02785e796782344176d3651500bad1a53-h34wtOcLvnFT1Yy9",
     },
   });
-export function sendEmail( {email, subject, body}){
- console.log(email, subject, body);
+export function sendEmail( email, subject, body){
+ 
         const mailOptions = {
           from: 'abusurajbd@gmail.com',
           to: email,
