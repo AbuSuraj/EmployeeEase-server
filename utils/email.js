@@ -1,17 +1,16 @@
 import {createTransport} from 'nodemailer';
 import { config } from 'dotenv';
 config();
-const api_key = "xsmtpsib-8b42d510bd6afffcbb78d6faa1af60d02785e796782344176d3651500bad1a53-htBQP0Lm7yDr3jaE"
+// const api_key = "xsmtpsib-8b42d510bd6afffcbb78d6faa1af60d02785e796782344176d3651500bad1a53-IrEM0LOVW9tjBQ4w"
 const transporter = createTransport({
     host: "smtp-relay.brevo.com",
     port: 587,
     auth: {
         user: "abusurajbd@gmail.com",
-        pass: api_key,
+        pass: process.env.BREVO_KEY,
     },
   });
-export function sendEmail( {email, subject, body}){
-  console.log(email, body, subject);
+export function sendEmail( email, subject, body){ 
         const mailOptions = {
           from: 'abusurajbd@gmail.com',
           to: email,
